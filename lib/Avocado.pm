@@ -6,10 +6,11 @@ use warnings;
 
 our $VERSION = '0.01';
 
-use Avocado::View;
+use Avocado::Context;
 use Avocado::Response;
 use Avocado::Request;
-use Avocado::Context;
+use Avocado::Runner;
+use Avocado::View;
 
 use base 'Exporter';
 
@@ -18,10 +19,11 @@ our @EXPORT = qw/
   status
   body
   content_type
-  guacamole
   c
   request
   response
+  setup
+  run
 /;
 
 sub render { Avocado::View->render(@_); }
@@ -31,14 +33,8 @@ sub body { Avocado::Response->body(@_); }
 sub c { Avocado::Context->c(@_); }
 sub request { Avocado::Request->get(@_); }
 sub response { Avocado::Response->get(@_); }
-
-sub guacamole {
-  my $env = shift;
-
-  # Create new request and response
-  Avocado::Request->create($env);
-  Avocado::Response->create(200);
-}
+sub setup { Avocado::Runner->setup(@_); }
+sub run { Avocado::Runner->run(@_); }
 
 1;
 __END__
@@ -58,11 +54,10 @@ Don't use this -- definitely not for anything important.
 
 If you are masochistic, here you go. You were warned.
 
-  use Plack::Runner;
   use Avocado;
   
-  sub run {
-    guacamole(@_);
+  sub main {
+    setup(@_);
 
     my $r = request();
     
@@ -71,8 +66,7 @@ If you are masochistic, here you go. You were warned.
     return response();
   }
   
-  my $psgi = Plack::Runner->new;
-  $psgi->run(\&run);
+  run(\&main);
 
 
 =head1 DESCRIPTION
