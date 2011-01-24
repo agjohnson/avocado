@@ -7,34 +7,43 @@ use warnings;
 our $VERSION = '0.01';
 
 use Avocado::Context;
+use Avocado::Error;
 use Avocado::Response;
 use Avocado::Request;
+use Avocado::Route;
 use Avocado::Runner;
 use Avocado::View;
 
 use base 'Exporter';
 
 our @EXPORT = qw/
-  render
-  status
-  body
-  content_type
   c
+  abort error
   request
-  response
-  setup
-  run
+  response status body content_type
+  get
+  setup run
+  template
 /;
 
-sub render { Avocado::View->render(@_); }
+sub c { Avocado::Context->c(@_); }
+
+sub abort { Avocado::Error->abort(@_); }
+sub error { Avocado::Error->set(@_); }
+
+sub request { Avocado::Request->get(@_); }
+
+sub response { Avocado::Response->get(@_); }
 sub status { Avocado::Response->status(@_); }
 sub content_type { Avocado::Response->content_type(@_); }
 sub body { Avocado::Response->body(@_); }
-sub c { Avocado::Context->c(@_); }
-sub request { Avocado::Request->get(@_); }
-sub response { Avocado::Response->get(@_); }
+
+sub get { Avocado::Route->get(@_); }
+
 sub setup { Avocado::Runner->setup(@_); }
 sub run { Avocado::Runner->run(@_); }
+
+sub template { Avocado::View->template(@_); }
 
 1;
 __END__
@@ -55,19 +64,7 @@ Don't use this -- definitely not for anything important.
 If you are masochistic, here you go. You were warned.
 
   use Avocado;
-  
-  sub main {
-    setup(@_);
-
-    my $r = request();
-    
-    body(sprintf("The current page is: %s", $r->path_info));
-
-    return response();
-  }
-  
-  run(\&main);
-
+  print "Need to update this"  
 
 =head1 DESCRIPTION
 

@@ -6,24 +6,22 @@ use Template;
 use FindBin;
 use Plack::Response;
 
-my $path = $FindBin::Bin . "/Dc/view";
+my $PATH = $FindBin::Bin . "/view";
 
-sub render {
-  my $self = shift;
-  my $template = shift;
-  my $args = shift;
+sub template {
+    my $class = shift;
+    my $template = shift;
+    my $args = shift;
 
-  my $output = "";
+    my $output = "";
 
-  my $t = Template->new({
-    INCLUDE_PATH => $path,
-  });
+    my $t = Template->new({
+        INCLUDE_PATH => $PATH,
+    });
 
-  $t->process($template, $args, \$output) || die $t->error();
+    $t->process($template, $args, \$output) || die $t->error();
 
-  Avocado::Response->body($output);
-
-  return Avocado::Response->get;
+    return $output;
 }
 
 1;

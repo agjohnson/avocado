@@ -2,57 +2,58 @@ package Avocado::Response;
 
 use Plack::Response;
 
+# Class object to store response object
 my $RES = undef;
 
 sub create {
-  my $self = shift;
-  my $status = shift || 200;
+    my $class = shift;
+    my $status = shift || 200;
 
-  $RES = Plack::Response->new($status);
+    $RES = Plack::Response->new($status);
 
-  $self->content_type('text/html');
+    $class->content_type('text/html');
 
-  return $RES;
+    return $RES;
 }
 
 sub get {
-  return $RES->finalize;
+    return $RES->finalize;
 }
 
 sub status {
-  my $self = shift;
-  my $status = shift;
+    my $class = shift;
+    my $status = shift;
 
-  if ($status) {
-    $RES->status($status);
-  }
-  else {
-    return $RES->status;
-  }
+    if ($status) {
+        $RES->status($status);
+    }
+    else {
+        return $RES->status;
+    }
 }
 
 sub content_type {
-  my $self = shift;
-  my $type = shift;
+    my $class = shift;
+    my $type = shift;
 
-  if ($type) {
-    $RES->content_type($type);
-  }
-  else {
-    return $RES->content_type;
-  }
+    if ($type) {
+        $RES->content_type($type);
+    }
+    else {
+        return $RES->content_type;
+    }
 }
 
 sub body {
-  my $self = shift;
-  my $arg = shift;
+    my $class = shift;
+    my $arg = shift;
 
-  if ($arg) {
-    $RES->body($arg);
-  }
-  else {
-    return $RES->body;
-  }
+    if ($arg) {
+        $RES->body($arg);
+    }
+    else {
+        return $RES->body;
+    }
 }
 
 1;

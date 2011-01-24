@@ -2,6 +2,7 @@ package Avocado::Request;
 
 use Plack::Request;
 
+# Class object for request object
 my $REQ = undef;
 
 sub create {
