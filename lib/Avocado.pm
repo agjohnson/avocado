@@ -4,8 +4,9 @@ use 5.008009;
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
+our $VERSION = '0.01.1';
 
+use Avocado::Cache;
 use Avocado::Context;
 use Avocado::Error;
 use Avocado::Response;
@@ -17,6 +18,7 @@ use Avocado::View;
 use base 'Exporter';
 
 our @EXPORT = qw/
+  cache
   c
   abort error
   request
@@ -25,6 +27,8 @@ our @EXPORT = qw/
   setup run
   template
 /;
+
+sub cache { Avocado::Cache->cache(@_); }
 
 sub c { Avocado::Context->c(@_); }
 

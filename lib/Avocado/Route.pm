@@ -27,11 +27,11 @@ sub process {
     my $class = shift;
 
     my $path = Avocado::Request->get->path_info;
-    my $method = shift // Avocado::Request->get->method;
+    my $method = Avocado::Request->get->method;
 
     # Iterate through routes, next on wrong method
-    foreach $route (@Routes) {
-        next if ($route->{method} != $method);
+    foreach my $route (@Routes) {
+        next if (!$route->{method} eq $method);
 
         my $route_path = $route->{path};
         if (my @args = ($path =~ m#$route_path#)) {
@@ -39,7 +39,7 @@ sub process {
         }
     }
 
-    return undef;
+    return $method;
 }
 
 1;
