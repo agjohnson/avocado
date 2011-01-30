@@ -8,9 +8,10 @@ WriteMakefile(
     PREREQ_PM         => {
       'Plack::Request' => 0,
       'Plack::Response' => 0,
+      'Plack::Runner' => 0,
       'Template' => 0,
       'FindBin' => 0
-    }, # e.g., Module::Name => 1.1
+}, # e.g., Module::Name => 1.1
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
       (ABSTRACT_FROM  => 'lib/Avocado.pm', # retrieve abstract from module
        AUTHOR         => 'Anthony Johnson <anthony@ohess.org>') : ()),
