@@ -2,7 +2,7 @@ package Avocado::Error;
 
 use Avocado::Response;
 
-$Errors = {};
+my $Errors = {};
 
 sub set {
     my $class = shift;

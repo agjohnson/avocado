@@ -21,7 +21,7 @@ our @EXPORT = qw/
   abort error
   request
   response status body content_type
-  get
+  get post
   setup run
   template
 /;
@@ -38,7 +38,8 @@ sub status { Avocado::Response->status(@_); }
 sub content_type { Avocado::Response->content_type(@_); }
 sub body { Avocado::Response->body(@_); }
 
-sub get { Avocado::Route->get(@_); }
+sub get { Avocado::Route->add('GET', @_); }
+sub post { Avocado::Route->add('POST', @_); }
 
 sub setup { Avocado::Runner->setup(@_); }
 sub run { Avocado::Runner->run(@_); }
