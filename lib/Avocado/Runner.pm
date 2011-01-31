@@ -14,11 +14,11 @@ sub process {
 
     # Create new request and response
     Avocado::Request->create($env);
-    Avocado::Response->create(200);
 
     my $res = Avocado::Route->process;
 
-    return render_response($res);
+    return $res->get();
+    #return render_response($res);
 }
 
 sub render_response {

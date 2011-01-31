@@ -1,59 +1,55 @@
 package Avocado::Response;
 
+use 5.010;
+use strict;
+use warnings;
+
 use Plack::Response;
 
-# Class object to store response object
-my $RES = undef;
+# Instantiate
+sub new {
+    my ($class, %args) = @_;
 
-sub create {
-    my $class = shift;
-    my $status = shift || 200;
+    my $self = {
+        status => 200,
+        content => "",
+        %args
+    };
 
-    $RES = Plack::Response->new($status);
+    # Set up Plack response
+    $self->{response} = Plack::Response->new($self->{status});
 
-    $class->content_type('text/html');
+    for my $field (qw/content_type status body/) {
+        if (defined $self->{$field}) {
+            no strict 'refs';
+            &{"Plack\::Response\::$field"}($self->{response}, $self->{$field});
+        }
+    }
 
-    return $RES;
+    bless $self, $class;
+    return $self;
 }
 
+# Create methods for plack response object
+for my $field (qw/content_type status body/) {
+    
+    no strict 'refs';
+
+    *{"Avocado\::Response\::$field"} = sub {
+        my ($self, $value) = @_;
+
+        if (defined $value) {
+            &{"Plack\::Response\::$field"}($self->{response}, $value);
+        }
+        
+        return &{"Plack\::Response\::$field"}($self->{response}); 
+    };
+}
+
+# Create and finalize Plack response
 sub get {
-    return $RES->finalize;
-}
-
-sub status {
-    my $class = shift;
-    my $status = shift;
-
-    if ($status) {
-        $RES->status($status);
-    }
-    else {
-        return $RES->status;
-    }
-}
-
-sub content_type {
-    my $class = shift;
-    my $type = shift;
-
-    if ($type) {
-        $RES->content_type($type);
-    }
-    else {
-        return $RES->content_type;
-    }
-}
-
-sub body {
-    my $class = shift;
-    my $arg = shift;
-
-    if ($arg) {
-        $RES->body($arg);
-    }
-    else {
-        return $RES->body;
-    }
+    my $self = shift;
+    return $self->{response}->finalize;
 }
 
 1;

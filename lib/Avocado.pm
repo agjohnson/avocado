@@ -25,7 +25,7 @@ our @EXPORT = qw/
   response status body content_type
   get post
   setup run
-  template
+  template render
 /;
 
 sub cache { Avocado::Cache->cache(@_); }
@@ -49,6 +49,7 @@ sub setup { Avocado::Runner->setup(@_); }
 sub run { Avocado::Runner->run(@_); }
 
 sub template { Avocado::View->template(@_); }
+sub render { Avocado::View->render(@_); }
 
 1;
 __END__

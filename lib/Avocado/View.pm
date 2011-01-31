@@ -1,10 +1,13 @@
 package Avocado::View;
 
+use 5.010;
+use strict;
+use warnings;
+
 use Avocado::Response;
 
 use Template;
 use FindBin;
-use Plack::Response;
 
 my $PATH = $FindBin::Bin . "/view";
 
@@ -21,7 +24,25 @@ sub template {
 
     $t->process($template, $args, \$output) || die $t->error();
 
-    return $output;
+    return Avocado::Response->new(
+        status => 200,
+        content_type => 'text/html',
+        body => $output
+    );
+}
+
+# Render object as response
+sub render {
+    my ($class, $obj) = @_;
+
+    # TODO render hashes as json?
+    my $content = "$obj";
+    
+    return Avocado::Response->new(
+        status => 200,
+        content_type => 'text/plain',
+        body => $content
+    );
 }
 
 1;

@@ -14,17 +14,28 @@ sub set {
 sub abort {
     my $class = shift;
     my $error = shift;
+    my $content;
     
     # Change status if error is numeric
-    if ($error =~ m/^\d+$/) {
-        Avocado::Response->status($error);
+    if ($error !~ m/^\d+$/) {
+        return Avocado::Response->new(
+            content_type => 'text/html',
+            status => 500,
+            content => "Yo dawg..."
+        );
     }
 
     if (exists($Errors->{$error})) {
-        return &{$Errors->{$error}}($error, @_);
+        $content = &{$Errors->{$error}}($error, @_);
     } else {
-        return "<h1>Error</h1><p>Error $error"
+        $content = "<h1>Error</h1><p>Error $error"
     }
+
+    return Avocado::Response->new(
+        content_type => 'text/html',
+        status => $error,
+        body => $content
+    );
 }
 
 1;
