@@ -1,7 +1,13 @@
 package Avocado::Runner;
 
-use Plack::Runner;
+use 5.010;
+use strict;
+use warnings;
 
+use Plack::Runner;
+use Avocado::Response;
+
+# Start Plack loop
 sub run {
     my $class = shift;
 
@@ -9,6 +15,7 @@ sub run {
     $psgi->run(\&process);
 }
 
+# Processing loop
 sub process {
     my $env = shift;
 
@@ -16,31 +23,20 @@ sub process {
     Avocado::Request->create($env);
 
     my $res = Avocado::Route->process;
+    
+    # TODO replace with error response
+    my %response = {
+        status => 500,
+        content_type => 'text/html',
+        body => "Invalid response"
+    };
 
+    # Not an Avocado::Response? Well fuck off.
+    return Avocado::Response->new(%response)
+      unless (ref $res eq "Avocado::Response");
+    
+    # We should have an Avocado::Response, finalize it
     return $res->get();
-    #return render_response($res);
-}
-
-sub render_response {
-    my $obj = shift;
-
-    # Decide response based on object type
-    if (ref $obj eq "") {
-        Avocado::Response->body("$obj");
-    }
-    elsif (ref $obj eq "ARRAY") {
-        for my $elm ($obj) {
-            # Build response body
-            my $body = "";
-            $body .= "$elm";    
-            Avocado::Response->body($body);
-        }
-    }
-    else {
-        Avocado::Response->body("$obj");
-    }
-
-    return Avocado::Response->get;
 }
 
 1;

@@ -1,5 +1,9 @@
 package Avocado::Request;
 
+use 5.010;
+use strict;
+use warnings;
+
 use Plack::Request;
 
 # Class object for request object

@@ -36,13 +36,8 @@ sub process {
         my $route_path = $route->{path};
         if (my @args = ($path =~ m#$route_path#)) {
             
-            # Call closure
-            my $ret = &{$route->{func}}(@args);
-            
-            die('Invalid response')
-              unless (ref $ret eq "Avocado::Response");
-            
-            return $ret;
+            # Call closure, return response
+            return &{$route->{func}}(@args);
         }
     }
 

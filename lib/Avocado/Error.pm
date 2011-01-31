@@ -1,5 +1,9 @@
 package Avocado::Error;
 
+use 5.010;
+use strict;
+use warnings;
+
 use Avocado::Response;
 
 my $Errors = {};

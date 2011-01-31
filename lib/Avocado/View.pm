@@ -8,21 +8,22 @@ use Avocado::Response;
 
 use Template;
 use FindBin;
+use Carp;
 
 my $PATH = $FindBin::Bin . "/view";
 
+# Return response rendered from TT2 template
 sub template {
-    my $class = shift;
-    my $template = shift;
-    my $args = shift;
+    my ($class, $template, %args) = @_;
 
+    # Try to process the template, croak on errors, return response
     my $output = "";
-
     my $t = Template->new({
         INCLUDE_PATH => $PATH,
-    });
+    }) or croak("Error setting up template processor");
 
-    $t->process($template, $args, \$output) || die $t->error();
+    $t->process($template, %args, \$output)
+      or croak(sprintf("Template error: %s", $t->error()));
 
     return Avocado::Response->new(
         status => 200,
