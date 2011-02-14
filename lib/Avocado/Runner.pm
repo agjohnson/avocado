@@ -25,14 +25,14 @@ sub process {
     my $res = Avocado::Route->process;
     
     # TODO replace with error response
-    my %response = {
+    my $response = {
         status => 500,
         content_type => 'text/html',
         body => "Invalid response"
     };
 
     # Not an Avocado::Response? Well fuck off.
-    return Avocado::Response->new(%response)
+    return Avocado::Response->new($response)
       unless (ref $res eq "Avocado::Response");
     
     # We should have an Avocado::Response, finalize it

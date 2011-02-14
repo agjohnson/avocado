@@ -39,7 +39,7 @@ sub current {
     my $class = shift;
 
     unless (defined $Cache) {
-        $Cache = CHI->new( driver => 'File', root_dir => './cache', global => 1 );
+        $Cache = CHI->new( driver => 'Memory', global => 1 );
     }
 
     return $Cache;

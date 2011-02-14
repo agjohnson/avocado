@@ -15,6 +15,7 @@ sub set {
     $Errors->{$error} = $func;
 }
 
+# Return abort response
 sub abort {
     my $class = shift;
     my $error = shift;
@@ -30,15 +31,33 @@ sub abort {
     }
 
     if (exists($Errors->{$error})) {
-        $content = &{$Errors->{$error}}($error, @_);
+        my $error_res = &{$Errors->{$error}}($error, @_);
+        
+        die("Error response not an Avocado::Response")
+          unless (ref $error_res eq "Avocado::Response");
+
+        $error_res->status($error);
+
+        return $error_res;
     } else {
-        $content = "<h1>Error</h1><p>Error $error"
+        return Avocado::Response->new(
+            content_type => 'text/html',
+            status => $error,
+            body => "<h1>Error</h1><p>Error $error"
+        );
     }
+
+}
+
+# Return redirect response
+sub redirect {
+    my $class = shift;
+    my $url = shift;
 
     return Avocado::Response->new(
         content_type => 'text/html',
-        status => $error,
-        body => $content
+        status => 302,
+        location => $url
     );
 }
 

@@ -20,7 +20,7 @@ use base 'Exporter';
 our @EXPORT = qw/
   cache
   c
-  abort error
+  abort error redirect
   request
   response status body content_type
   get post
@@ -34,6 +34,7 @@ sub c { Avocado::Context->c(@_); }
 
 sub abort { Avocado::Error->abort(@_); }
 sub error { Avocado::Error->set(@_); }
+sub redirect { Avocado::Error->redirect(@_); }
 
 sub request { Avocado::Request->get(@_); }
 

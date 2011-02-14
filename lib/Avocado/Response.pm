@@ -6,6 +6,8 @@ use warnings;
 
 use Plack::Response;
 
+my @Fields = qw/content_type status body location/;
+
 # Instantiate
 sub new {
     my ($class, %args) = @_;
@@ -19,7 +21,7 @@ sub new {
     # Set up Plack response
     $self->{response} = Plack::Response->new($self->{status});
 
-    for my $field (qw/content_type status body/) {
+    for my $field (@Fields) {
         if (defined $self->{$field}) {
             no strict 'refs';
             &{"Plack\::Response\::$field"}($self->{response}, $self->{$field});
@@ -31,7 +33,7 @@ sub new {
 }
 
 # Create methods for plack response object
-for my $field (qw/content_type status body/) {
+for my $field (@Fields) {
     
     no strict 'refs';
 
