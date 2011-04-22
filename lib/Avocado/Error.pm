@@ -8,6 +8,7 @@ use Avocado::Response;
 
 my $Errors = {};
 
+# Add error handler to Errors
 sub set {
     my $class = shift;
     my ($error, $func) = @_;

@@ -14,6 +14,11 @@ my $Cache = undef;
 sub cache {
     my $class = shift;
     my $func = shift;
+    my $expires = shift;
+
+    # Default expires of 2h
+    $expires = "2 hours"
+      unless(defined($expires));
 
     return sub {
         my @args = @_;
@@ -25,7 +30,7 @@ sub cache {
             $response = &$func(@args);
 
             if (ref $response eq "Avocado::Response") {
-                current()->set($id, $response)
+                current()->set($id, $response, $expires)
                   if ($response->status() == 200);
             }
 

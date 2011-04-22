@@ -4,7 +4,7 @@ use 5.008009;
 use strict;
 use warnings;
 
-our $VERSION = '0.01.1';
+our $VERSION = '0.01.2';
 
 use Avocado::Cache;
 use Avocado::Context;
