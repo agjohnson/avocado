@@ -6,7 +6,7 @@ use warnings;
 
 use Plack::Response;
 
-my @Fields = qw/content_type status body location/;
+my @Fields = qw/content_type status body location header/;
 
 # Instantiate
 sub new {
