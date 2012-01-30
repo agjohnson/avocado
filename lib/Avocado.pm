@@ -57,40 +57,28 @@ __END__
 
 =head1 NAME
 
-Avocado - A web anti-framework
-
-=head1 SYNOPSIS
-
-Avocado is an anti-framework for web applications. It was 
-written as an exercise in organizing a framework from scratch.
-
-I put avocado on my chili the night I started this. Yum.
-
-Don't use this -- definitely not for anything important. 
-
-If you are masochistic, here you go. You were warned.
-
-  use Avocado;
-  print "Need to update this"  
+Avocado
 
 =head1 DESCRIPTION
 
+Avocado is syntactic sugar built on top of Plack that helps power the 
+ohess.org website. Don't use this though, it was only a programming exercise.
+If you are masochistic, you can find the source code -- an example of Avocado 
+usage -- on github.
 
-=head2 EXPORT
-
-None by default.
-
+You were warned.
 
 =head1 SEE ALSO
 
+L<http://github.com/agjohnson/ohess>
 
 =head1 AUTHOR
 
-Anthony Johnson, E<lt>anthony@ohess.orgE<gt>
+Anthony Johnson, E<lt>aj@ohess.orgE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2011 Anthony Johnson <anthony@ohess.org>
+Copyright (c) 2011 Anthony Johnson <aj@ohess.org>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
